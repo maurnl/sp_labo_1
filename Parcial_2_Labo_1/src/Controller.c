@@ -10,6 +10,11 @@
 #include "LinkedList.h"
 #include "parser.h"
 
+/** \brief Pide un path y carga los datos de las servicios desde un archivo (modo texto).
+ * \param pArrayListServicios LinkedList*
+ * \return int
+ *
+ */
 int controller_loadFromText(LinkedList* pArrayListServicios){
 	int retorno=-2;
 	char path[30];
@@ -35,6 +40,11 @@ int controller_loadFromText(LinkedList* pArrayListServicios){
 	return retorno;
 }
 
+/** \brief Listar servicios
+ * \param pArrayListServicios LinkedList*
+ * \return int
+ *
+ */
 int controller_ListServicios(LinkedList* pArrayListServicios){
 	int retorno=-1;
     if(pArrayListServicios!=NULL&&!ll_isEmpty(pArrayListServicios)){
@@ -49,15 +59,28 @@ int controller_ListServicios(LinkedList* pArrayListServicios){
 	return retorno;
 }
 
+/**
+ * map Servicios (calcular costo total) Aplica una función a cada elemento de la linkedList
+ * @param pArrayListServicios
+ * @return -2 si puntero a NULL o lista vacia; -1 error en map; 0 si funciono
+ */
 int controller_mapServicios(LinkedList* pArrayListServicios){
-	int retorno=-1;
-	void (*pFuncionMapeo)(void*arg)=NULL;
+	int retorno=-2;
+	void* (*pFuncionMapeo)(void*arg)=NULL;
+	LinkedList* listaMapeada=NULL;
 	pFuncionMapeo=Servicios_mapCalcularTotalServicio;
-	if(pArrayListServicios!=NULL&&pFuncionMapeo!=NULL&&!ll_isEmpty(pArrayListServicios))
-		retorno=ll_map(pArrayListServicios, pFuncionMapeo);
+	if(pArrayListServicios!=NULL&&pFuncionMapeo!=NULL&&!ll_isEmpty(pArrayListServicios)){
+		listaMapeada=ll_map(pArrayListServicios, pFuncionMapeo);
+		retorno=controller_ListServicios(listaMapeada);
+		ll_deleteLinkedList(listaMapeada);
+	}
 	return retorno;
 }
-
+/**
+ * filter Servicios Aplica un filtro a traves de ll_filter a una linkedList y la muestra
+ * @param pArrayListServicios
+ * @return -2 si puntero a null o lista original vacia; -1 si criterio invalido; 0 si funciono
+ */
 int controller_filterServicios(char* path,LinkedList* pArrayListServicios){
 	char tipoStr[30];
 	int tipoInt;
@@ -95,7 +118,11 @@ int controller_filterServicios(char* path,LinkedList* pArrayListServicios){
 	fclose(pArchivo);
     return retorno;
 }
-
+/** \brief Ordena y lista servicios
+ * \param pArrayListServicios LinkedList*
+ * \return int -1 si error o 0 si ok
+ *
+ */
 int controller_sortAndListServicios(LinkedList* pArrayListServicios){
 	int retorno=-1;
 	int (*pFunc)(void*arg1,void*arg2)=NULL;
@@ -107,6 +134,13 @@ int controller_sortAndListServicios(LinkedList* pArrayListServicios){
 	return retorno;
 }
 
+/** \brief Guarda los datos de los servicios en el archivo 'path' (modo texto).
+ *
+ * \param path char*
+ * \param pArrayListServicios LinkedList*
+ * \return int -2 si error al crear archivo o -1 si error de escritura o 0 si ok
+ *
+ */
 int controller_saveAsText(char* path,LinkedList* pArrayListServicios){
 	int retorno=-2;
 	FILE* pArchivo;

@@ -47,8 +47,11 @@ int main(void) {
 		case 3:
 			salida=controller_mapServicios(listaServicios);
 			switch(salida){
-			case -1:
+			case -2:
 				printf("- LISTA VACIA. CARGUE ALGUN DATO Y REINTENTE.\n");
+				break;
+			case -1:
+				printf("- ERROR EN MAPEO.\n");
 				break;
 			case 0:
 				printf("- TOTALES CALCULADOS CORRECTAMENTE.\n");

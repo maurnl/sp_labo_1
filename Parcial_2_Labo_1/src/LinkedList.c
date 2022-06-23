@@ -458,16 +458,30 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
  * Verificando que tanto el puntero this como el puntero a la funcion
  * pFunc sean distintos de NULL. Retorna la lista completa.
  * */
-int ll_map(LinkedList* this, void (*pFunc)(void* pElement))
+//int ll_map(LinkedList* this, void (*pFunc)(void* pElement))
+//{
+//	int returnAux=-1;
+//	if(this!=NULL&&pFunc!=NULL){
+//		for(int i=0;i<ll_len(this);i++){
+//			pFunc(ll_get(this, i));
+//		}
+//		returnAux=0;
+//	}
+//	return returnAux;
+//}
+
+LinkedList* ll_map(LinkedList* this, void* (*pFunc)(void* pElement))
 {
-	int returnAux=-1;
+	LinkedList* listaMapeada=NULL;
 	if(this!=NULL&&pFunc!=NULL){
-		for(int i=0;i<ll_len(this);i++){
-			pFunc(ll_get(this, i));
+		listaMapeada=ll_newLinkedList();
+		if(listaMapeada!=NULL){
+			for(int i=0;i<ll_len(this);i++){
+				ll_add(listaMapeada,pFunc(ll_get(this, i)));
+			}
 		}
-		returnAux=0;
 	}
-	return returnAux;
+	return listaMapeada;
 }
 
 LinkedList* ll_filter(LinkedList* this, int(*pFunc)(void*)){

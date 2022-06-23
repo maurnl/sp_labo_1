@@ -11,6 +11,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * Retorna un puntero a una nueva entidad eServicios en memoria dinamica
+ * @return NULL si no hay memoria disponible o eServicios* Puntero a eServicios si funciono
+ */
 eServicios* Servicios_new(){
 	eServicios* servicioBuff=NULL;
 	servicioBuff=(eServicios*) malloc(sizeof(eServicios));
@@ -27,6 +31,17 @@ eServicios* Servicios_new(){
 	}
 	return servicioBuff;
 }
+/**
+ * Retorna un puntero a una nueva entidad eServicios en memoria dinamica
+ * @param id int
+ * @param descripcion char*
+ * @param tipo int
+ * @param edad int
+ * @param precioUnitario float
+ * @param cantidad int
+ * @param totalServicio float
+ * @return NULL si no hay memoria disponible o eServicios* Puntero a eServicios si funciono
+ */
 eServicios* Servicios_newParametros(int id,char descripcion[],int tipo,float precioUnitario,int cantidad,float totalServicio){
 	eServicios* servicioBuff=Servicios_new();
 	if (Servicios_setId(servicioBuff, id)
@@ -41,12 +56,20 @@ eServicios* Servicios_newParametros(int id,char descripcion[],int tipo,float pre
 	}
 	return servicioBuff;
 }
+/**
+ * Libera la memoria ocupada por un puntero a estructura eServicios en memoria dinamica
+ * @param this eServicios* puntero a servicios
+ */
 void Servicios_delete(eServicios* this){
 	if(this!=NULL){
 		free(this);
 	}
 }
-
+/**
+ * Muesta la informacion de un servicio
+ * @param this eServicios* puntero a servicio
+ * @return -1 si puntero NULL o 0 si funciono
+ */
 int Servicios_mostrarServicio(eServicios* this){
 	int retorno=-1;
 	int id, cantidad;
@@ -208,7 +231,12 @@ int Servicios_getTotalServicio(eServicios* this,float* totalServicio){
 	}
 	return retorno;
 }
-
+/**
+ * Funcion criterio. Compara dos servicios por descripcion
+ * @param arg1 void*
+ * @param arg2 void*
+ * @return 0 si error (punteros NULL) o 1 si descripcion de arg1 es mayor que descripcion de arg2 o -1 si descripcion de arg2 es mayor que descripcion de arg1
+ */
 int Servicios_compareByDescripcion(void* arg1, void* arg2){
 	int retorno=0;
 	char descripcion1[50], descripcion2[50];
@@ -223,7 +251,11 @@ int Servicios_compareByDescripcion(void* arg1, void* arg2){
 	}
 	return retorno;
 }
-
+/**
+ * Funcion filtro. Campo tipo=1
+ * @param arg eServicios*
+ * @return 0 si puntero NULL o -1 si no cumple criterio o 1 si cumple criterio
+ */
 int Servicios_filtrarPorTipoMinorista(void* arg){
 	int retorno=-1;
 	int tipo;
@@ -235,7 +267,11 @@ int Servicios_filtrarPorTipoMinorista(void* arg){
 	}
 	return retorno;
 }
-
+/**
+ * Funcion filtro. Campo tipo=2
+ * @param arg eServicios*
+ * @return 0 si puntero NULL o -1 si no cumple criterio o 1 si cumple criterio
+ */
 int Servicios_filtrarPorTipoMayorista(void* arg){
 	int retorno=-1;
 	int tipo;
@@ -247,7 +283,11 @@ int Servicios_filtrarPorTipoMayorista(void* arg){
 	}
 	return retorno;
 }
-
+/**
+ * Funcion filtro. Campo tipo=3
+ * @param arg eServicios*
+ * @return 0 si puntero NULL o -1 si no cumple criterio o 1 si cumple criterio
+ */
 int Servicios_filtrarPorTipoExportar(void* arg){
 	int retorno=-1;
 	int tipo;
@@ -259,12 +299,27 @@ int Servicios_filtrarPorTipoExportar(void* arg){
 	}
 	return retorno;
 }
-
-void Servicios_mapCalcularTotalServicio(void* arg){
-	eServicios* this=(eServicios*)arg;
+/**
+ * Funcion map. Calcula el campo totalServicio de eServicios
+ * @param arg eServicios*
+ * @return eServicio* puntero a nuevo eServicios* calculado
+ */
+void* Servicios_mapCalcularTotalServicio(void* arg){
 	float precioUnitario;
 	int cantidad;
-	Servicios_getPrecioUnitario(this, &precioUnitario);
-	Servicios_getCantidad(this, &cantidad);
+	eServicios* this=Servicios_new();
+	(*this)=*(eServicios*)(arg);
+	Servicios_getPrecioUnitario((eServicios*)arg, &precioUnitario);
+	Servicios_getCantidad((eServicios*)arg, &cantidad);
 	Servicios_setTotalServicio(this, precioUnitario*cantidad);
+	return this;
 }
+
+//void Servicios_mapCalcularTotalServicio(void* arg){
+//	eServicios* this=(eServicios*)arg;
+//	float precioUnitario;
+//	int cantidad;
+//	Servicios_getPrecioUnitario(this, &precioUnitario);
+//	Servicios_getCantidad(this, &cantidad);
+//	Servicios_setTotalServicio(this, precioUnitario*cantidad);
+//}

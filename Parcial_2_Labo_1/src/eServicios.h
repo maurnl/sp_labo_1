@@ -48,4 +48,5 @@ int Servicios_filtrarPorTipoMinorista(void* arg);
 int Servicios_filtrarPorTipoMayorista(void* arg);
 int Servicios_filtrarPorTipoExportar(void* arg);
 
-void Servicios_mapCalcularTotalServicio(void* arg);
+//void Servicios_mapCalcularTotalServicio(void* arg);
+void* Servicios_mapCalcularTotalServicio(void* arg);

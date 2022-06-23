@@ -9,7 +9,6 @@
 
 /**
  * @brief Funcion para control de menu
- * @param flagSave bandera para evitar salir sin guardar
  * @return int la opcion elegida
  */
 int menu(){
