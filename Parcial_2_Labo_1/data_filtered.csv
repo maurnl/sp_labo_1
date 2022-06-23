@@ -1,0 +1,10 @@
+id_servicio,descripcion,tipo,precioUnitario,cantidad,totalServicio
+61,Aplique capucha,1,260.00,1,0.00
+67,Aplique capucha,1,260.00,1,0.00
+59,Cambio cierre,1,700.00,2,0.00
+65,Cambio cierre,1,700.00,2,0.00
+69,Cambio cierre,1,700.00,1,0.00
+53,Cierre pantalon,1,600.00,4,0.00
+70,Cierre pantalon,1,600.00,2,0.00
+50,Ruedo pantalon,1,250.00,2,0.00
+62,Ruedo pantalon,1,250.00,2,0.00
